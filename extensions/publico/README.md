@@ -29,15 +29,6 @@ npm install
 npm run dev
 ```
 
-## 🛒 Publish to the Raycast Store
-1. Make sure you are logged in: `ray login`
-2. Update `CHANGELOG.md` with the changes you are releasing
-3. Run `npm run build` and address any warnings or errors
-4. Publish: `npm run publish`
-5. Complete the store submission in the Raycast dashboard (screenshots, description, categories)
-
-> ℹ️ Raycast reviews each submission. Double-check that API usage complies with Público's terms of service and that the extension works without additional credentials.
-
 ## 🤝 Contributing
 Issues and pull requests are welcome! Please open a discussion if you plan to work on a larger change so we can align on the approach.
 
