@@ -29,10 +29,6 @@ npm install
 npm run dev
 ```
 
-- `npm run lint` — check coding style and Raycast best practices
-- `npm run fix-lint` — automatically fix linting issues (where possible)
-- `npm run build` — bundle the extension for release
-
 ## 🛒 Publish to the Raycast Store
 1. Make sure you are logged in: `ray login`
 2. Update `CHANGELOG.md` with the changes you are releasing
