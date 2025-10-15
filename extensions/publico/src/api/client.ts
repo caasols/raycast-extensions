@@ -130,6 +130,7 @@ export function extractArticleId(url: string): string | null {
 // Fetch article detail by ID
 export async function fetchArticleDetail(
   articleId: string,
+  signal?: AbortSignal,
 ): Promise<Article | null> {
   try {
     if (!articleId) {
@@ -138,7 +139,7 @@ export async function fetchArticleDetail(
 
     const url = `${BASE_URL}/content/news/${articleId}`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, { signal });
 
     if (!response.ok) {
       throw new Error(
@@ -146,9 +147,28 @@ export async function fetchArticleDetail(
       );
     }
 
-    const data = await response.json();
-    return ensureArticle(data);
+    // Read response as text first to handle incomplete JSON gracefully
+    const text = await response.text();
+
+    if (!text || text.trim() === "") {
+      // Empty response is not an error - just return null
+      console.log(`Empty response for article ${articleId}`);
+      return null;
+    }
+
+    try {
+      const data = JSON.parse(text);
+      return ensureArticle(data);
+    } catch {
+      console.error("JSON parse error, response was:", text.substring(0, 200));
+      // Return null instead of throwing - some articles may have malformed data
+      return null;
+    }
   } catch (error) {
+    // Don't log abort errors as they're intentional
+    if (error instanceof Error && error.name === "AbortError") {
+      throw error;
+    }
     console.error("Error fetching article detail:", error);
     throw error;
   }
